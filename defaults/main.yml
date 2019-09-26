@@ -1,0 +1,25 @@
+---
+# role: dnsmasq
+# file: defaults/main.yml
+#
+# This file should declare all or almost all variables of the role, describe
+# them, provide examples and a safe default value for each.  A variable that
+# is defined here may be overridden anywhere else, this place having the lowest
+# precedence/priority/weight.
+#
+# All variables of this role should have a name of the form:
+# dnsmasq__foo
+# with two underscores between the role name (that is a prefix) and `foo`, i.e.
+# what this variable is supposed to be for, as in:
+# dnsmasq__login: admin
+# dnsmasq__base_url: https://dnsmasq.qssdk.lab
+
+################################################################################
+## dnsmasq__action
+#
+# Define the main behaviour of the role. Valid values are 'setup' (the default)
+# and 'unset'.  Depending of the role scope, this may be understood as install/
+# uninstall, configure/unconfigure, start/stop, present/absent, create/remove,
+# and so on.
+#
+#dnsmasq__action: setup

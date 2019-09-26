@@ -1,0 +1,7 @@
+# role: dnsmasq
+# file: tests/requirements.yml
+---
+- name: "dnsmasq"
+  src: "https://github.com/quidame/aqs-role-dnsmasq.git"
+  scm: "git"
+  version: "devel"
