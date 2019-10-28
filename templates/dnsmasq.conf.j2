@@ -1,0 +1,341 @@
+# Configuration file for dnsmasq.
+# {{ ansible_managed }}
+#
+# Format is one option per line, legal options are the same as the long options
+# legal on the command line.  See "/usr/sbin/dnsmasq --help" or "man 8 dnsmasq"
+# for details. See also /usr/share/doc/dnsmasq/examples/dnsmasq.conf.example.
+
+
+### BEGIN GLOBAL CONFIGURATION
+{% if dnsmasq__conf_user is defined %}
+user={{ dnsmasq__conf_user }}
+{% endif -%}
+
+{% if dnsmasq__conf_group is defined %}
+group={{ dnsmasq__conf_group }}
+{% endif -%}
+### END GLOBAL CONFIGURATION
+
+### BEGIN DNS CONFIGURATION
+{% if dnsmasq__conf_port is defined and dnsmasq__conf_port|int != 53 %}
+port={{ dnsmasq__conf_port }}
+{% endif -%}
+
+{% if dnsmasq__conf_domain_needed|d(False)|bool %}
+domain-needed
+{% endif -%}
+
+{% if dnsmasq__conf_bogus_priv|d(False)|bool %}
+bogus-priv
+{% endif -%}
+
+{% if dnsmasq__conf_dnssec|d(False)|bool %}
+dnssec
+{% if dnsmasq__conf_conf_file is defined %}
+conf-file={{ dnsmasq__conf_conf_file }}
+{% endif %}
+{% if dnsmasq__conf_dnssec_check_unsigned|d(False)|bool %}
+dnssec-check-unsigned
+{% endif %}
+{% endif -%}
+
+{% if dnsmasq__conf_filterwin2k|d(False)|bool %}
+filterwin2k
+{% endif -%}
+
+{% if dnsmasq__conf_no_resolv|d(False)|bool %}
+no-resolv
+{% if dnsmasq__conf_resolv_file is defined and dnsmasq__conf_resolf_file != "/etc/resolv.conf" %}
+resolv-file={{ dnsmasq__conf_resolv_file }}
+{% endif %}
+{% if dnsmasq__conf_strict_order|d(False)|bool %}
+strict-order
+{% endif %}
+{% if dnsmasq__conf_no_poll|d(False)|bool %}
+no-poll
+{% endif %}
+{% endif -%}
+
+{% if dnsmasq__conf_server is defined %}
+{% for server in [dnsmasq__conf_server]|flatten %}
+server={{ server }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_local is defined %}
+{% for local in [dnsmasq__conf_local]|flatten %}
+local={{ local }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_address is defined %}
+{% for address in [dnsmasq__conf_address]|flatten %}
+address={{ address }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_ipset is defined %}
+{% for ipset in [dnsmasq__conf_ipset]|flatten %}
+ipset={{ ipset }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_interface is defined %}
+{% for interface in [dnsmasq__conf_interface]|flatten %}
+interface={{ interface }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_except_interface is defined %}
+{% for except_interface in [dnsmasq__conf_except_interface]|flatten %}
+except_interface={{ except_interface }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_listen_address is defined %}
+{% for listen_address in [dnsmasq__conf_listen_address]|flatten %}
+listen_address={{ listen_address }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_no_dhcp_interface is defined %}
+{% for no_dhcp_interface in [dnsmasq__conf_no_dhcp_interface]|flatten %}
+no_dhcp_interface={{ no_dhcp_interface }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_bind_interfaces|d(False)|bool %}
+bind-interfaces
+{% endif -%}
+
+{% if dnsmasq__conf_no_hosts|d(False)|bool %}
+no-hosts
+{% if dnsmasq__conf_addn_hosts is defined %}
+addn-hosts={{ dnsmasq__conf_addn_hosts }}
+{% endif %}
+{% if dnsmasq__conf_expand_hosts|d(False)|bool %}
+expand-hosts
+{% endif %}
+{% endif -%}
+
+{% if dnsmasq__conf_domain is defined %}
+{% for domain in [dnsmasq__conf_domain]|flatten %}
+domain={{ domain }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_local_ttl is defined %}
+local-ttl={{ dnsmasq__conf_local_ttl }}
+{% endif -%}
+
+{% if dnsmasq__conf_bogus_nxdomain is defined %}
+{% for bogus_nxdomain in [dnsmasq__conf_bogus_nxdomain]|flatten %}
+bogus-nxdomain={{ bogus_nxdomain }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_alias is defined %}
+{% for alias in [dnsmasq__conf_alias]|flatten %}
+alias={{ alias }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_mx_host is defined %}
+{% for mx_host in [dnsmasq__conf_mx_host]|flatten %}
+mx-host={{ mx_host }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_localmx|d(False)|bool %}
+localmx
+{% if dnsmasq__conf_mx_target is defined %}
+mx-target={{ dnsmasq__conf_mx_target }}
+{% endif %}
+{% endif -%}
+
+{% if dnsmasq__conf_selfmx|d(False)|bool %}
+selfmx
+{% endif -%}
+
+{% if dnsmasq__conf_srv_host is defined %}
+{% for srv_host in [dnsmasq__conf_srv_host]|flatten %}
+srv-host={{ srv_host }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_ptr_record is defined %}
+{% for ptr_record in [dnsmasq__conf_ptr_record]|flatten %}
+ptr-record={{ ptr_record }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_txt_record is defined %}
+{% for txt_record in [dnsmasq__conf_txt_record]|flatten %}
+txt-record={{ txt_record }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_cname is defined %}
+{% for cname in [dnsmasq__conf_cname]|flatten %}
+cname={{ cname }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_log_queries|d(False)|bool %}
+log-queries
+{% endif -%}
+### END DNS CONFIGURATION
+
+### BEGIN DHCP CONFIGURATION
+{% if dnsmasq__conf_dhcp_range is defined %}
+{% for dhcp_range in [dnsmasq__conf_dhcp_range]|flatten %}
+dhcp-range={{ dhcp_range }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_enable_ra|d(False)|bool %}
+enable-ra
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_host is defined %}
+{% for dhcp_host in [dnsmasq__conf_dhcp_host]|flatten %}
+dhcp-hodt={{ dhcp_host }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_ignore is defined %}
+{% for dhcp_ignore in [dnsmasq__conf_dhcp_ignore]|flatten %}
+dhcp-ignore={{ dhcp_ignore }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_vendorclass is defined %}
+{% for dhcp_vendorclass in [dnsmasq__conf_dhcp_vendorclass]|flatten %}
+dhcp-vendorclass={{ dhcp_vendorclass }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_userclass is defined %}
+{% for dhcp_userclass in [dnsmasq__conf_dhcp_userclass]|flatten %}
+dhcp-userclass={{ dhcp_userclass }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_mac is defined %}
+{% for dhcp_mac in [dnsmasq__conf_dhcp_mac]|flatten %}
+dhcp-mac={{ dhcp_mac }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_read_ethers|d(False)|bool %}
+read-ethers
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_option is defined %}
+{% for dhcp_option in [dnsmasq__conf_dhcp_option]|flatten %}
+dhcp-option={{ dhcp_option }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_match is defined %}
+{% for dhcp_match in [dnsmasq__conf_dhcp_match]|flatten %}
+dhcp-match={{ dhcp_match }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_boot is defined %}
+{% for dhcp_boot in [dnsmasq__conf_dhcp_boot]|flatten %}
+dhcp-boot={{ dhcp_boot }}
+{% endfor %}
+{% endif -%}
+### END DHCP CONFIGURATION
+
+### BEGIN TFTP/PXE CONFIGURATION
+{% if dnsmasq__conf_enable_tftp|d(False)|bool %}
+enable-tftp
+{% endif -%}
+
+{% if dnsmasq__conf_tftp_root is defined %}
+tftp-root={{ dnsmasq__conf_tftp_root }}
+{% endif -%}
+
+{% if dnsmasq__conf_tftp_no_fail|d(False)|bool %}
+tftp-no-fail
+{% endif -%}
+
+{% if dnsmasq__conf_tftp_secure|d(False)|bool %}
+tftp-secure
+{% endif -%}
+
+{% if dnsmasq__conf_tftp_no_blocksize|d(False)|bool %}
+tftp-no-blocksize
+{% endif -%}
+
+{% if dnsmasq__conf_pxe_prompt is defined %}
+{% for pxe_prompt in [dnsmasq__conf_pxe_prompt]|flatten %}
+pxe-prompt={{ pxe_prompt }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_pxe_service is defined %}
+{% for pxe_service in [dnsmasq__conf_pxe_service]|flatten %}
+pxe-service={{ pxe_service }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_lease_max is defined and dnsmasq__conf_dhcp_lease_max|int != 150 %}
+dhcp-lease-max={{ dnsmasq__conf_dhcp_lease_max }}
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_leasefile is defined and dnsmasq__conf_dhcp_leasefile != "/var/lib/misc/dnsmasq.leases" %}
+dhcp-leasefile={{ dnsmasq__conf_dhcp_leasefile }}
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_authoritative|d(False)|bool %}
+dhcp-authoritative
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_rapid_commit|d(False)|bool %}
+dhcp-rapid-commit
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_script is defined %}
+dhcp-script={{ dnsmasq__conf_dhcp_script }}
+{% endif -%}
+
+{% if dnsmasq__conf_cache_size is defined %}
+cache-size={{ dnsmasq__conf_cache_size }}
+{% endif -%}
+
+{% if dnsmasq__conf_no_negcache|d(False)|bool %}
+no-negcache
+{% endif -%}
+
+{% if dnsmasq__conf_log_dhcp|d(False)|bool %}
+log-dhcp
+{% endif -%}
+
+{% if dnsmasq__conf_conf_file is defined %}
+{% for conf_file in [dnsmasq__conf_conf_file]|flatten %}
+conf-file={{ conf_file }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_conf_dir is defined %}
+{% for conf_dir in [dnsmasq__conf_conf_dir]|flatten %}
+conf-dir={{ conf_dir }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_name_match is defined %}
+{% for dhcp_name_match in [dnsmasq__conf_dhcp_name_match]|flatten %}
+dhcp-name-match={{ dhcp_name_match }}
+{% endfor %}
+{% endif -%}
+
+{% if dnsmasq__conf_dhcp_ignore_names is defined %}
+{% for dhcp_ignore_names in [dnsmasq__conf_dhcp_ignore_names]|flatten %}
+dhcp-ignore_names={{ dhcp_ignore_names }}
+{% endfor %}
+{% endif -%}
+### END TFTP/PXE CONFIGURATION
